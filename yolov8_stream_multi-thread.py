@@ -2,8 +2,9 @@ from utils.yolov8 import YOLOv8
 import cv2
 
 # 웹캠에서 비디오 캡처 시작
-model_1 = YOLOv8(model_path = './yolov8_best.pt')
-model_2 = YOLOv8(model_path = './yolov8_best.pt')
+yolo_model_path = './yolov8_best.pt'
+model_1 = YOLOv8(yolo_model_path)
+model_2 = YOLOv8(yolo_model_path)
 cap = cv2.VideoCapture('http://192.168.0.23:5000/video')
 
 # 비디오 캡처가 정상적으로 시작되었는지 확인
