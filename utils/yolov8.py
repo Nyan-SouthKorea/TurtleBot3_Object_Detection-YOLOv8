@@ -28,18 +28,19 @@ class YOLOv8:
         print('YOLOv8 인퍼런스 Multi-Thread 구동 시작')
         while True:
             try:
-                results = self.model.predict(source = cv2.cvtColor(self.img, cv2.COLOR_BGR2RGB), verbose = False)[0]
+                results = self.model.predict(source = cv2.cvtColor(self.img, cv2.COLOR_BGR2RGB), verbose = False, conf = 0.5)[0]
             except:
                 time.sleep(0.1)
                 continue
             if self.cls_list == None:
-                cls_list = results.names
+                self.cls_list = results.names
+                print(self.cls_list)
             results = results.boxes.data.tolist()
             dic_list = []
             for result in results:
                 x1, y1, x2, y2, conf, cls = int(result[0]), int(result[1]), int(result[2]), int(result[3]), float(result[4]), int(result[5])
                 # depth 추출
-                dic_list.append({'bbox':[x1, y1, x2, y2], 'conf':conf, 'class_name':cls_list[cls]})
+                dic_list.append({'bbox':[x1, y1, x2, y2], 'conf':conf, 'class_name':self.cls_list[cls]})
             self.dic_list = deepcopy(dic_list)
 
     def draw(self, img):
